@@ -1,23 +1,32 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-// linha = naipe e coluna = valor
-// 1=espadas, 2=copas, 3= ouros, 4=paus
+// linha = naipe e coluna = valor; j
+// 1=espadas, 2=copas, 3= ouros, 4=paus; i
 int B[4][13]={
 	{1,2,3,4,5,6,7,8,9,10,11,12,13},
 	{1,2,3,4,5,6,7,8,9,10,11,12,13},
 	{1,2,3,4,5,6,7,8,9,10,11,12,13},
 	{1,2,3,4,5,6,7,8,9,10,11,12,13},
 };
-
 int main(){
-	int i, j, c, x;
+	int i=0, j=0, c, x, naipe[c], numero[c],a;
+	printf("O baralho está compl?\n");
 	printf("Quantas cartas quer receber?\n");
 	scanf("%d", &x);
+	printf("\n");
+	srand(time(NULL));
 	for (c=1;c<=x;c++){
-		srand(time(NULL));
+		inicio:
 		j = 1 + (rand()%3);
 		i = 1 + (rand()%12);
+		naipe[c]=j;
+		numero[c]=i;
+		for (a = 0; a < c; a++){
+			if (naipe[a] == j && numero[a] == i){
+				goto inicio;
+			}
+		}
 		if (i == 1){
     	printf("Você recebeu Ás");
 		} else {
@@ -49,5 +58,6 @@ int main(){
       		}
     	}
 	}
-return 0;
+	printf("\n");
+	return 0;
 }
