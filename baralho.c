@@ -8,21 +8,48 @@ char nai[4][8] = {
     "Espadas", "Copas", "Ouros", "Paus"
 };
 int main() {
-    int c = 2, x, a;
-    printf("O baralho está completo. Deseja retirar alguma carta?\n");
+    int c = 2, x=0, a, R[4][13], j , i, t=52;
+	for (j=0; i<4;i++){
+		for (i=0;j<13;j++){
+			R[j][i]=0;
+		}
+	}
+	while (x!=1 && x!=2){
+    	printf("O baralho está completo. Deseja retirar alguma carta?\n1-Sim\n2-Não\n");
+		scanf("%d", &x);
+	}
+	if (x==1){
+		printf("Quantas cartas quer remover?\n");
+		scanf("%d", &x);
+		for (c = 0; c < x; c++) {
+			printf("Quais cartas quer remover?\nSelecione um naipe e depois digite um número de 1 a 13\n1-Espadas\n2-Copas\n3-Ouros\n4-Paus\n");
+			scanf("%d %d", &j, &i);
+			R[j][i]=1;
+		}
+		t-=x;
+		printf("Restam %d cartas no baralho\n", t);
+	}
     printf("Quantas cartas quer receber?\n");
     scanf("%d", &x);
     printf("\n");
     srand(time(NULL));
     int Rnai[x], Rnum[x]; // Vetores para armazenar as cartas retiradas
     for (c = 0; c < x; c++) {
-        int j, i, r = 1;
-        while (r==1) {
+        int r = 1, B=1;
+        while (r==1 || B==1) {
             j = (rand() % 4);
             i = (rand() % 13);
             r = 0;
-            // Verificar se a carta já foi retirada anteriormente
+			B=0;
+            // Verificar se a carta já foi removida anteriormente
             for (a = 0; a < c; a++) {
+                if (R[j][i] == 1) {
+                    B = 1; // Marcar a carta como repetida
+                    break; // Sair do loop interno
+                }
+            }
+			// Verificar se a carta já foi retirada anteriormente
+			for (a = 0; a < c; a++) {
                 if (Rnai[a] == j && Rnum[a] == i) {
                     r = 1; // Marcar a carta como repetida
                     break; // Sair do loop interno
