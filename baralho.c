@@ -1,63 +1,38 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-// linha = naipe e coluna = valor; j
-// 1=espadas, 2=copas, 3= ouros, 4=paus; i
-int B[4][13]={
-	{1,2,3,4,5,6,7,8,9,10,11,12,13},
-	{1,2,3,4,5,6,7,8,9,10,11,12,13},
-	{1,2,3,4,5,6,7,8,9,10,11,12,13},
-	{1,2,3,4,5,6,7,8,9,10,11,12,13},
+char num[13][3] = {
+    "A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"
 };
-int main(){
-	int i=0, j=0, c, x, naipe[c], numero[c],a;
-	printf("O baralho está compl?\n");
-	printf("Quantas cartas quer receber?\n");
-	scanf("%d", &x);
-	printf("\n");
-	srand(time(NULL));
-	for (c=1;c<=x;c++){
-		inicio:
-		j = 1 + (rand()%3);
-		i = 1 + (rand()%12);
-		naipe[c]=j;
-		numero[c]=i;
-		for (a = 0; a < c; a++){
-			if (naipe[a] == j && numero[a] == i){
-				goto inicio;
-			}
-		}
-		if (i == 1){
-    	printf("Você recebeu Ás");
-		} else {
-    		if (i == 11){
-      			printf("Você recebeu Valete");
-    		} else {
-    			if (i == 12){
-      				printf("Você recebeu Rainha");
-    			} else {
-      				if (i == 13){
-    					printf("Você recebeu Rei");
-  					} else {
-    					printf("Você recebeu %d", B[j][i]);
-  					}
-				}
-			}
-		}
-		if (j == 1){
-    		printf(" de espadas\n");
-		} else {
-    		if (j == 2){
-      			printf(" de copas\n");
-    		} else {
-      			if (j == 3){
-        			printf(" de paus\n");
-       			} else {
-        		printf(" de ouros\n");
-      			}
-      		}
-    	}
-	}
-	printf("\n");
-	return 0;
+char nai[4][8] = {
+    "Espadas", "Copas", "Ouros", "Paus"
+};
+int main() {
+    int c = 2, x, a;
+    printf("O baralho está completo. Deseja retirar alguma carta?\n");
+    printf("Quantas cartas quer receber?\n");
+    scanf("%d", &x);
+    printf("\n");
+    srand(time(NULL));
+    int Rnai[x], Rnum[x]; // Vetores para armazenar as cartas retiradas
+    for (c = 0; c < x; c++) {
+        int j, i, r = 1;
+        while (r==1) {
+            j = (rand() % 4);
+            i = (rand() % 13);
+            r = 0;
+            // Verificar se a carta já foi retirada anteriormente
+            for (a = 0; a < c; a++) {
+                if (Rnai[a] == j && Rnum[a] == i) {
+                    r = 1; // Marcar a carta como repetida
+                    break; // Sair do loop interno
+                }
+            }
+        }
+        Rnai[c] = j;
+        Rnum[c] = i;
+        printf("Você recebeu %s de %s\n", num[i], nai[j]);
+    }
+    printf("\n");
+    return 0;
 }
