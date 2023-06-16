@@ -1,5 +1,6 @@
 #include <stdio.h>
 float a[4]; //a[0] calor, a[1] massa, a[2] calor sensivel, a[3] temperatura
+char m[4][3]={{cal},{g},{/},{°C}};
 void massa(){
     printf("\nDigite o valor da massa em gramas: ");
     scanf("%f",&a[1]);
@@ -26,13 +27,28 @@ int main (){
         temperatura();
         coeficiente();
         a[i]=a[1]*a[2]*a[3];
-        printf("%.0f calorias", a[i]);
+        printf("%.0f %s", a[i], m[i]);
         break;
       case 1:
+        energia();
+        temperatura();
+        coeficiente();
+        a[i]=a[0]/(a[2]*a[3]);
+        printf("%.0f %s", a[i], m[i]);
         break;
       case 2:
+        massa();
+        temperatura();
+        energia();
+        a[i]=a[0]/(a[1]*a[3]);
+        printf("%.0f %s", a[i], m[i]);
         break;
       case 3:
+        massa();
+        energia();
+        coeficiente();
+        a[i]=a[0]/(a[2]*a[1]);
+        printf("%.0f %s", a[i], m[i]);
         break;
 }
   return 0;
