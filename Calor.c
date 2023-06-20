@@ -20,7 +20,7 @@ void coeficiente(){
 }
 int main (){
     int i;
-    printf("\n");
+    printf("\nQual valor você quer descobrir?\n 0-Energia\n 1-Massa\n 2-Coeficiente de calor sensível\n 3-Variação de temperatura");
     scanf("%d",&i);
     switch(i){
       case 0:
