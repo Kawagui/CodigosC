@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 float a[4]; //a[0] calor, a[1] massa, a[2] calor sensivel, a[3] temperatura
 char m[4][3]={{cal},{g},{/},{°C}};
 void massa(){
@@ -41,7 +42,7 @@ int main (){
         temperatura();
         energia();
         a[i]=a[0]/(a[1]*a[3]);
-        printf("%.0f %s", a[i], m[i]);
+        printf("%.0f %s%s%s*%s", a[i], m[0], m[i], m[1], m[3]);
         break;
       case 3:
         massa();
