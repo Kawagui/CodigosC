@@ -14,7 +14,7 @@ void temperatura(){
     printf("\nDigite o valor da variação de temperatura em Celsius: ");
     scanf("%f",&a[3]);
 }
-void coeficiente(){
+void calor(){
     printf("\nDigite o valor do calor específico da substância em calorias / gramas * graus Celsius: ");
     scanf("%f",&a[2]);
 }
