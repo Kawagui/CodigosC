@@ -1,65 +1,51 @@
 #include <stdio.h>
-
-#define MAX_SIZE 10
-
-void multiplyMatrices(int m1[MAX_SIZE][MAX_SIZE], int m2[MAX_SIZE][MAX_SIZE], int result[MAX_SIZE][MAX_SIZE], int rows1, int cols1, int rows2, int cols2) {
-    int i, j, k;
-
+#define limite 10 //tamanho máximo de linha e coluna de uma matriz
     // Multiplicação de matrizes
-    for (i = 0; i < rows1; i++) {
-        for (j = 0; j < cols2; j++) {
+void multiM(int m1[limite][limite], int m2[limite][limite], int r[limite][limite], int L1, int C1, int L2, int C2) {
+    int i, j, k;
+    for (i = 0; i < L1; i++) {
+        for (j = 0; j < C2; j++) {
             result[i][j] = 0;
-            for (k = 0; k < cols1; k++) {
-                result[i][j] += m1[i][k] * m2[k][j];
+            for (k = 0; k < C1; k++) {
+                r[i][j] += m1[i][k] * m2[k][j];
             }
         }
     }
 }
-
-void printMatrix(int matrix[MAX_SIZE][MAX_SIZE], int rows, int cols) {
+void printM(int mat[limite][limite], int L, int C) {
     int i, j;
-    for (i = 0; i < rows; i++) {
-        for (j = 0; j < cols; j++) {
-            printf("%d\t", matrix[i][j]);
+    for (i = 0; i < L; i++) {
+        for (j = 0; j < C; j++) {
+            printf("%d\t", mat[i][j]);
         }
         printf("\n");
     }
 }
-
 int main() {
-    int m1[MAX_SIZE][MAX_SIZE], m2[MAX_SIZE][MAX_SIZE], result[MAX_SIZE][MAX_SIZE];
-    int rows1, cols1, rows2, cols2;
-    int i, j;
-
+    int m1[limite][limite], m2[limite][limite], r[limite][limite];
+    int L1, C1, L2, C2, i, j;
     printf("Digite o número de linhas e colunas da primeira matriz:\n");
-    scanf("%d %d", &rows1, &cols1);
-
+    scanf("%d %d", &L1, &C1);
     printf("Digite os elementos da primeira matriz:\n");
-    for (i = 0; i < rows1; i++) {
-        for (j = 0; j < cols1; j++) {
+    for (i = 0; i < L1; i++) {
+        for (j = 0; j < C1; j++) {
             scanf("%d", &m1[i][j]);
         }
     }
-
     printf("Digite o número de linhas e colunas da segunda matriz:\n");
-    scanf("%d %d", &rows2, &cols2);
-
+    scanf("%d %d", &L2, &C2);
     printf("Digite os elementos da segunda matriz:\n");
-    for (i = 0; i < rows2; i++) {
-        for (j = 0; j < cols2; j++) {
+    for (i = 0; i < L2; i++) {
+        for (j = 0; j < C2; j++) {
             scanf("%d", &m2[i][j]);
         }
     }
-
-    if (cols1 != rows2) {
-        printf("Erro: O número de colunas da primeira matriz deve ser igual ao número de linhas da segunda matriz.\n");
+    if (C1 != L2) {
+        printf("O número de colunas da primeira matriz deve ser igual ao número de linhas da segunda matriz.\n");
         return 1;
     }
-
-    multiplyMatrices(m1, m2, result, rows1, cols1, rows2, cols2);
-
+    multiM(m1, m2, r, L1, C1, L2, C2);
     printf("A matriz resultante é:\n");
-    printMatrix(result, rows1, cols2);
-
+    printMatrix(r, L1, C2);
     return 0;
 }
