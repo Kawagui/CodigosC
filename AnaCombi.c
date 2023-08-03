@@ -57,18 +57,18 @@ int main() {
             scanf("%d", &M);
         }
 	    switch(M){
-		    case 1:
+		    case 1:  //permutação simples
 			    LerN();
 			    R=permu(N);
 			    WriteR();
     			break;
-		    case 2:
+		    case 2: //arranjo simples
                 LerN();
                 LerP();
                 R=arranjo(N,P);
     			WriteR();
             break;
-            case 3:
+            case 3: //combinação simples
 			   	LerN();
                 LerP();   
                 R=combi(N,P);
@@ -105,6 +105,15 @@ int main() {
                     break;
 				}
                 Writer();
+            break;
+            case 5: //permutação com repetição
+			   	//(n!/n1!*n2!*n3!*...nk!) k = número de repetições diferentes
+            break;
+            case 6: //arranjo com repetição
+			   	//(n^k)
+            break;
+            case 7: //combinação com repetição
+			   	//(n+k-1)!/(k!*(n-1)!)
             break;
 	    }
     }
