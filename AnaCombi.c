@@ -9,6 +9,8 @@ int calFat(float n) {
     	return (n * calFat(n - 1));
     }
 }
+int arrarepete (float x, float p){
+    
 int permu (float x){
 	return (calFat(x));
 }
