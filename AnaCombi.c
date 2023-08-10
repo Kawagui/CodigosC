@@ -3,7 +3,7 @@
 float N= -1, P= -1, n= -1, p= -1, r, R,y, x;
 int M= -1;
 int calFat(float n) {
-    if (n == 0) {
+    if (n == 1) {
         return 1;
     } else {
     	return (n * calFat(n - 1));
