@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-float N= -1, P= -1, n= -1, p= -1, r, R,y, x;
+float N= -1, P= -1, n= -1, p= -1, r, R, y, x;
 int M= -1;
 int calFat(float n) {	//Fatorial recursivo
     if (n == 1) {
@@ -9,16 +9,14 @@ int calFat(float n) {	//Fatorial recursivo
     	return (n * calFat(n - 1));
     }
 }
-void arrarepete (float x, float p){ 	//Arranjo com repetição
-	R=1;
-	for (p; p!=0; p--){
-		R=x*R;
-	}
+int arranrepete (float x, float p){ 	//Arranjo com repetição
+	
+	return ();
 }
 int combirepete (float x, float p){	//Combinação com repetição
 	return ((calFat(x+p-1))/(calFat(p)*calFat(x-1)));
 }
-int permucircu (float x){		//Permutação com repetição
+int permucircu (float x){		//Permutação circular
 	return (calFat(x)/x);
 }    
 int permu (float x){	//Permutação simples
@@ -65,7 +63,7 @@ void Writer(){		//Escrever variável r
 int main() {
     while (M!=8){
         while (M<0 || M>8){  
-            printf("Selecione uma expressão:\n 1-Permutação simples\n 2-Arranjo simples\n 3-Combinação simples\n 4-Probabilidade\n 5-Permutação circular\n 6-Arranjo com repetição\n 7-Combinação com repetição\n 8-Sair\n\n");
+            printf("Selecione uma expressão:\n1-Permutação simples\n2-Arranjo simples\n3-Combinação simples\n4-Probabilidade\n5-Permutação circular\n6-Arranjo com repetição\n7-Combinação com repetição\n8-Sair\n\n");
             scanf("%d", &M);
         }
 	    switch(M){
@@ -88,35 +86,65 @@ int main() {
             break;
             case 4: 	//verificar qual caso de probabilidade
                 M=-1;
-                while (M<1 || M>4){
-                    printf("Qual o tipo de probabilidade?\n1-Permutação simples\n2-Arranjo simples\n3-Combinação simples\n4-Sair\n");
+                while (M<1 || M>8){
+                    printf("Qual o tipo de probabilidade?\n1-Permutação simples\n2-Arranjo simples\n3-Combinação simples\n4-Permutação circular\n5-Arranjo com repetição\n6-Combinação com repetição\n7-Sair\n");
                     scanf("%d", &M);
                 }
-                switch(M){
-		            case 1:
+                switch(M){ 
+		            case 1:		//Probabilidade de permutação simples
 			            LerN();
 			            R=permu(N);
                         Lern();
 			            r=permu(n);
+			            Writer();
     		        break;
-		            case 2:
+		            case 2:		//Probabilidade de arranjo simples
                         LerN();
                 		LerP();
                         R=arranjo(N,P);
                         Lern();
                 		Lerp();
 			            r=arranjo(n,p);
+			            Writer();
                     break;
-                    case 3:
+                    case 3:		//Probabilidade de combinação simples
 			            LerN();
                 		LerP();
                         R=combi(N,P);
                         Lern();
                 		Lerp();
                         r=combi(n,p);
+                        Writer();
                     break;
-				}
-                Writer();
+                    case 4:		//Probabilidade de permutação circular
+			            LerN();
+			            R=permucircu(N);
+                        Lern();
+			            r=permucircu(n);
+			            Writer();
+                    break;
+                    case 5:		//Probabilidade de arranjo com repetição
+			            LerN();
+                		LerP();
+                        R=arranrepete(N,P);
+                        Lern();
+                		Lerp();
+			            r=arranrepete(n,p);
+			            Writer();
+                    break;
+                    case 6: 	//Probabilidade de combinação com repetição
+			            LerN();
+                		LerP();
+                        R=combirepete(N,P);
+                        Lern();
+                		Lerp();
+                        r=combirepete(n,p);
+                        Writer();
+                    break;
+                    case 7: //sair
+			            printf("Saindo\n");
+                    break;
+				} 
             break;
             case 5: 	//permutação circular
 			   	LerN();
@@ -126,7 +154,7 @@ int main() {
             case 6: 	//arranjo com repetição
             	LerN();
             	LerP();
-			   	arrarepete(N,P);	
+			   	arranrepete(N,P);	
 			   	WriteR();
             break;
             case 7: 	//combinação com repetição
