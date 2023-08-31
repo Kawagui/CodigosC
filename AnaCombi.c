@@ -10,8 +10,11 @@ int calFat(float n) {	//Fatorial recursivo
     }
 }
 int arranrepete (float x, float p){ 	//Arranjo com repetição
-	
-	return ();
+	int y=1;
+    for(p;p>0;p--){
+        y=y*x;
+        }
+	return (y*1);
 }
 int combirepete (float x, float p){	//Combinação com repetição
 	return ((calFat(x+p-1))/(calFat(p)*calFat(x-1)));
