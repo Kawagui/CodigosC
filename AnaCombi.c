@@ -2,36 +2,36 @@
 #include <stdlib.h>
 float N= -1, P= -1, n= -1, p= -1, r, R, y, x;		//N e P para o caso 1 montando a operação, n e p para o caso 2 montando a operação, R para resultado do caso 1, r para resultado do caso 2, x e y para parâmetros, 
 int M= -1;		//M para selecionar no menu
-int calFat(float n) {	//Fatorial recursivo em rotina
+long double calFat(float n) {	//Fatorial recursivo em rotina
     if (n == 1) {
         return 1;
     } else {
     	return (n * calFat(n - 1));
     }
 }
-int potencia(float x, float y){		//Rotina para realizar exponenciação
+long double potencia(float x, float y){		//Rotina para realizar exponenciação
 	int z = 1;
 	for (y;y>0;y--){
 		z=z*x;
 	}
 	return (z);
 }
-int arranrepete (float x, float p){ 	//Arranjo com repetição
+long double arranrepete (float x, float p){ 	//Arranjo com repetição
 	return (potencia(x,p));
 }
-int combirepete (float x, float p){		//Combinação com repetição
+long double combirepete (float x, float p){		//Combinação com repetição
 	return ((calFat(x+p-1))/(calFat(p)*calFat(x-1)));
 }
-int permucircu (float x){		//Permutação circular
+long double permucircu (float x){		//Permutação circular
 	return (calFat(x)/x);
 }    
-int permu (float x){	//Permutação simples
+long double permu (float x){	//Permutação simples
 	return (calFat(x));
 }
-int arranjo (float x, float p){ 	//Arranjo simples
+long double arranjo (float x, float p){ 	//Arranjo simples
 	return (calFat(x)/calFat(x-p));
 }
-int combi (float x,float p){	//Combinação simples
+long double combi (float x,float p){	//Combinação simples
     return (calFat(x)/(calFat(p)*calFat(x-p)));
 }
 void LerN(){	//Ler variável N
