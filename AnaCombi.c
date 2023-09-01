@@ -1,22 +1,25 @@
-#include <stdio.h>
+#include <stdio.h>		//Programa que realiza operações da análise combinatória: Permutação simples ou circular, Arranjo simples ou com repetição, Combinação simples ou com repetição e probabilidade com as operações citadas anteriormente
 #include <stdlib.h>
-float N= -1, P= -1, n= -1, p= -1, r, R, y, x;
-int M= -1;
-int calFat(float n) {	//Fatorial recursivo
+float N= -1, P= -1, n= -1, p= -1, r, R, y, x;		//N e P para o caso 1 montando a operação, n e p para o caso 2 montando a operação, R para resultado do caso 1, r para resultado do caso 2, x e y para parâmetros, 
+int M= -1;		//M para selecionar no menu
+int calFat(float n) {	//Fatorial recursivo em rotina
     if (n == 1) {
         return 1;
     } else {
     	return (n * calFat(n - 1));
     }
 }
-int arranrepete (float x, float p){ 	//Arranjo com repetição
-	int y=1;
-    for(p;p>0;p--){
-        y=y*x;
-        }
-	return (y*1);
+int potencia(float x, float y){		//Rotina para realizar exponenciação
+	int z = 1;
+	for (y;y>0;y--){
+		z=z*x;
+	}
+	return (z);
 }
-int combirepete (float x, float p){	//Combinação com repetição
+int arranrepete (float x, float p){ 	//Arranjo com repetição
+	return (potencia(x,p));
+}
+int combirepete (float x, float p){		//Combinação com repetição
 	return ((calFat(x+p-1))/(calFat(p)*calFat(x-1)));
 }
 int permucircu (float x){		//Permutação circular
@@ -65,7 +68,7 @@ void Writer(){		//Escrever variável r
 }
 int main() {
     while (M!=8){
-        while (M<0 || M>8){  
+        while (M<0 || M>8){  	//Menu para selecionar a operação
             printf("Selecione uma expressão:\n1-Permutação simples\n2-Arranjo simples\n3-Combinação simples\n4-Probabilidade\n5-Permutação circular\n6-Arranjo com repetição\n7-Combinação com repetição\n8-Sair\n\n");
             scanf("%d", &M);
         }
@@ -89,8 +92,8 @@ int main() {
             break;
             case 4: 	//verificar qual caso de probabilidade
                 M=-1;
-                while (M<1 || M>8){
-                    printf("Qual o tipo de probabilidade?\n1-Permutação simples\n2-Arranjo simples\n3-Combinação simples\n4-Permutação circular\n5-Arranjo com repetição\n6-Combinação com repetição\n7-Sair\n");
+                while (M<1 || M>7){		//Menu para selecionar a probabilidade a partir de uma operação
+                    printf("Qual o tipo de probabilidade?\n1-Permutação simples\n2-Arranjo simples\n3-Combinação simples\n4-Permutação circular\n5-Arranjo com repetição\n6-Combinação com repetição\n7-Sair\n\n");
                     scanf("%d", &M);
                 }
                 switch(M){ 
@@ -145,7 +148,8 @@ int main() {
                         Writer();
                     break;
                     case 7: //sair
-			            printf("Saindo\n");
+			            printf("Saindo\n\n");
+			            M=-1;
                     break;
 				} 
             break;
@@ -157,7 +161,7 @@ int main() {
             case 6: 	//arranjo com repetição
             	LerN();
             	LerP();
-			   	arranrepete(N,P);	
+			   	R=arranrepete(N,P);	
 			   	WriteR();
             break;
             case 7: 	//combinação com repetição
@@ -166,7 +170,7 @@ int main() {
 			   	R=combirepete(N,P);
 			   	WriteR();
             break;
-            case 8:
+            case 8:		//encerrar o programa
             	printf("Encerrando\n");
             break;
 	    }
