@@ -1,69 +1,70 @@
 #include <stdio.h>		//Programa que realiza operações da análise combinatória: Permutação simples ou circular, Arranjo simples ou com repetição, Combinação simples ou com repetição e probabilidade com as operações citadas anteriormente
 #include <stdlib.h>
-float N= -1, P= -1, n= -1, p= -1, r, R, y, x;		//N e P para o caso 1 montando a operação, n e p para o caso 2 montando a operação, R para resultado do caso 1, r para resultado do caso 2, x e y para parâmetros, 
+#include <float.h>
+long double N= -1, P= -1, n= -1, p= -1, r, R, y, x;		//N e P para o caso 1 montando a operação, n e p para o caso 2 montando a operação, R para resultado do caso 1, r para resultado do caso 2, x e y para parâmetros, 
 int M= -1;		//M para selecionar no menu
-long double calFat(float n) {	//Fatorial recursivo em rotina
+long double calFat(long double n) {	//Fatorial recursivo em rotina
     if (n == 1) {
         return 1;
     } else {
     	return (n * calFat(n - 1));
     }
 }
-long double potencia(float x, float y){		//Rotina para realizar exponenciação
+long double potencia(long double x, long double y){		//Rotina para realizar exponenciação
 	int z = 1;
 	for (y;y>0;y--){
 		z=z*x;
 	}
 	return (z);
 }
-long double arranrepete (float x, float p){ 	//Arranjo com repetição
+long double arranrepete (long double x, long double p){ 	//Arranjo com repetição
 	return (potencia(x,p));
 }
-long double combirepete (float x, float p){		//Combinação com repetição
+long double combirepete (long double x, long double p){		//Combinação com repetição
 	return ((calFat(x+p-1))/(calFat(p)*calFat(x-1)));
 }
-long double permucircu (float x){		//Permutação circular
+long double permucircu (long double x){		//Permutação circular
 	return (calFat(x)/x);
 }    
-long double permu (float x){	//Permutação simples
+long double permu (long double x){	//Permutação simples
 	return (calFat(x));
 }
-long double arranjo (float x, float p){ 	//Arranjo simples
+long double arranjo (long double x, long double p){ 	//Arranjo simples
 	return (calFat(x)/calFat(x-p));
 }
-long double combi (float x,float p){	//Combinação simples
+long double combi (long double x,long double p){	//Combinação simples
     return (calFat(x)/(calFat(p)*calFat(x-p)));
 }
 void LerN(){	//Ler variável N
 	while (N<0){
 		printf("Digite o valor de N: ");
-		scanf("%f",&N);
+		scanf("%Lf",&N);
     }
 }
 void LerP(){ 	//Ler variável P
 	while (P<0){	
 		printf("Digite o valor de P: ");
-		scanf("%f",&P);
+		scanf("%Lf",&P);
 	}
 }
 void WriteR(){		//Escrever variável R
-	printf("%.0f possibilidades\n\n", R);
+	printf("%.0Lf possibilidades\n\n", R);
 	N= -1, M= -1, P= -1;
 }
 void Lern(){	//Ler variável n
 	while (n<0){
 		printf("\nDigite o valor de n para o campo de possibilidades: ");
-		scanf("%f",&n);
+		scanf("%Lf",&n);
     }
 }
 void Lerp(){	//Ler variável p
 	while (p<0){
 		printf("\nDigite o valor de p para o campo de possibilidades: ");
-		scanf("%f",&p);
+		scanf("%Lf",&p);
     }
 }
 void Writer(){		//Escrever variável r
-	printf("A probabilidade é de %.0f/%.0f\n\n", r, R);
+	printf("A probabilidade é de %.0Lf/%.0Lf\n\n", r, R);
 	N= -1, M= -1, P= -1, n= -1, p= -1;
 }
 int main() {
