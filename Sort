@@ -112,3 +112,6 @@ void shellSort(int *vet, int size) {  //sort shell
         }
     }
 }
+
+	//sort heap
+	//sort radix
