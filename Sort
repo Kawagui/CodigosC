@@ -1,4 +1,17 @@
-void insercao (int vet, int tam){  //sort insert
+void bubble (int vet, int TAM){		//sort bubble
+int i,j;
+for (int j = 0; j < TAM - 2; j++ ){
+	for (i = 0; i < TAM - 2; i++ ){
+		if(vet[i] > vet[i + 1]){
+        vet[i] = vet[i+1];
+        vet[i+1] = vet[i]-vet[i+1];
+        vet[i] = vet[i]-vet[i+1];        
+		}   
+	}
+}  
+}
+
+void insercao (int vet, int tam){  	//sort insert
 int i, j, x;
 for (i=2; i<=tam; i++){
 	x = vet[i];
@@ -11,7 +24,7 @@ for (i=2; i<=tam; i++){
     vet[j+1] = x;
 }
 
-void selecao (int vet, int tam){ //sort select 
+void selecao (int vet, int tam){ 	//sort select 
     int i, j, min, x;
     for (i=1; i<=n-1; i++){
         min = i;
@@ -25,7 +38,7 @@ void selecao (int vet, int tam){ //sort select
     }
 }
 
-void quick(int vet[], int esq, int dir){  //sort quick
+void quick(int vet[], int esq, int dir){  	//sort quick
     int pivo = esq, i,ch,j;         
     for(i=esq+1;i<=dir;i++){        
         j = i;                      
@@ -47,7 +60,7 @@ void quick(int vet[], int esq, int dir){  //sort quick
     }
  }
 
-void mergeSort(int *vetor, int posicaoInicio, int posicaoFim) {  //sort merge
+void mergeSort(int *vetor, int posicaoInicio, int posicaoFim) {  	//sort merge
     int i, j, k, metadeTamanho, *vetorTemp;
     if(posicaoInicio == posicaoFim) return;
     metadeTamanho = (posicaoInicio + posicaoFim ) / 2;
@@ -112,6 +125,73 @@ void shellSort(int *vet, int size) {  //sort shell
         }
     }
 }
+	
+void maxHeapify(int arr[], int n, int i) {		//sort heap *Precisa fazer uma rotina para trocar variável
+    int maior = i;
+    int esquerda = 2 * i + 1;
+    int direita = 2 * i + 2;
 
-	//sort heap
-	//sort radix
+    if (esquerda < n && arr[esquerda] > arr[maior])
+        maior = esquerda;
+
+    if (direita < n && arr[direita] > arr[maior])
+        maior = direita;
+
+    if (maior != i) {
+        trocar(&arr[i], &arr[maior]);
+        maxHeapify(arr, n, maior);
+    }
+}
+
+void heapSort(int arr[], int n) {
+    for (int i = n / 2 - 1; i >= 0; i--)
+        maxHeapify(arr, n, i);
+
+    for (int i = n - 1; i >= 0; i--) {
+        trocar(&arr[0], &arr[i]);
+        maxHeapify(arr, i, 0);
+    }
+}
+	
+// Função para encontrar o maior elemento no array		//sort radix
+int encontrarMaior(int arr[], int n) {
+    int maior = arr[0];
+    for (int i = 1; i < n; i++) {
+        if (arr[i] > maior) {
+            maior = arr[i];
+        }
+    }
+    return maior;
+}
+
+// Função para realizar a ordenação Radix Sort
+void radixSort(int arr[], int n) {
+    int maior = encontrarMaior(arr, n);
+    int exp;
+    
+    for (exp = 1; maior / exp > 0; exp *= 10) {
+        int saida[n]; // Array de saída
+        int contador[10] = {0}; // Inicializa o contador de dígitos
+
+        // Conta a ocorrência de cada dígito
+        for (int i = 0; i < n; i++) {
+            contador[(arr[i] / exp) % 10]++;
+        }
+
+        // Atualiza o contador para indicar a posição correta de cada dígito
+        for (int i = 1; i < 10; i++) {
+            contador[i] += contador[i - 1];
+        }
+
+        // Cria o array de saída a partir do array original
+        for (int i = n - 1; i >= 0; i--) {
+            saida[contador[(arr[i] / exp) % 10] - 1] = arr[i];
+            contador[(arr[i] / exp) % 10]--;
+        }
+
+        // Copia o array de saída de volta para o array original
+        for (int i = 0; i < n; i++) {
+            arr[i] = saida[i];
+        }
+    }
+}
