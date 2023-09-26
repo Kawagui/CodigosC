@@ -5,7 +5,7 @@
 int TAM, i, j, r; 
 /*
 void bubble (int vet, int TAM){		//sort bubble
-int i,j;
+int i,j; 
 for (int j = 0; j < TAM - 2; j++ ){
 	for (i = 0; i < TAM - 2; i++ ){
 		if(vet[i] > vet[i + 1]){
