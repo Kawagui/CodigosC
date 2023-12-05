@@ -1,180 +1,284 @@
-#include <stdio.h>		//Programa que realiza operações da análise combinatória: Permutação simples ou circular, Arranjo simples ou com repetição, Combinação simples ou com repetição e probabilidade com as operações citadas anteriormente
+//Programa que realiza operações da análise combinatória: Permutação simples ou circular, Arranjo simples ou com repetição, Combinação simples ou com repetição e probabilidade com as operações citadas anteriormente
+#include <stdio.h>		
 #include <stdlib.h>
 #include <float.h>
-long double N= -1, P= -1, n= -1, p= -1, r, R, y, x;		//N e P para o caso 1 montando a operação, n e p para o caso 2 montando a operação, R para resultado do caso 1, r para resultado do caso 2, x e y para parâmetros, 
-int M= -1;		//M para selecionar no menu
-long double calFat(long double n) {	//Fatorial recursivo em rotina
+#include <time.h>
+//Todas as variáveis usadas, informações de cada uma têm no documento
+long double r, R, x, tempo, y,  d=0, a=1;		
+int M, N= -1, P= -1;
+//Fatorial recursivo
+long double calFat(int n) {	
     if (n == 1) {
         return 1;
     } else {
     	return (n * calFat(n - 1));
     }
 }
-long double potencia(long double x, long double y){		//Rotina para realizar exponenciação
-	int z = 1;
-	for (y;y>0;y--){
-		z=z*x;
+//Arranjo com repetição
+long double arranRepete (int n, int p){ 	
+	x=1;
+	for (p;p>0;p--){
+		x=x*n;
 	}
-	return (z);
+	return (x);
 }
-long double arranrepete (long double x, long double p){ 	//Arranjo com repetição
-	return (potencia(x,p));
+//Combinação com repetição
+long double combiRepete (int n, int p){		
+	return ((calFat(n+p-1))/(calFat(p)*calFat(n-1)));
 }
-long double combirepete (long double x, long double p){		//Combinação com repetição
-	return ((calFat(x+p-1))/(calFat(p)*calFat(x-1)));
-}
-long double permucircu (long double x){		//Permutação circular
-	return (calFat(x)/x);
+//Permutação circular
+long double permuCircu (int n){		
+	return (calFat(n)/n);
 }    
-long double permu (long double x){	//Permutação simples
-	return (calFat(x));
+//Permutação simples
+long double permu (int n){	
+	return (calFat(n));
 }
-long double arranjo (long double x, long double p){ 	//Arranjo simples
-	return (calFat(x)/calFat(x-p));
+//Arranjo simples
+long double arranjo (int n, int p){ 	
+	return (calFat(n)/calFat(n-p));
 }
-long double combi (long double x,long double p){	//Combinação simples
-    return (calFat(x)/(calFat(p)*calFat(x-p)));
+//Combinação simples
+long double combi (int n,int p){	
+    return (calFat(n)/(calFat(p)*calFat(n-p)));
 }
-void LerN(){	//Ler variável N
-	while (N<0){
+//Ler variável N
+void LerN(){	
+	while (N<0||N>1754){
 		printf("Digite o valor de N: ");
-		scanf("%Lf",&N);
+		scanf("%d",&N);
     }
 }
-void LerP(){ 	//Ler variável P
+//Ler variável P
+void LerP(){ 	
 	while (P<0){	
 		printf("Digite o valor de P: ");
-		scanf("%Lf",&P);
+		scanf("%d",&P);
 	}
 }
-void WriteR(){		//Escrever variável R
-	printf("%.0Lf possibilidades\n\n", R);
-	N= -1, M= -1, P= -1;
+//Escrever variável R
+void WriteR(){		
+	__mingw_printf("%.0Lf possibilidades\n", R);
 }
-void Lern(){	//Ler variável n
-	while (n<0){
-		printf("\nDigite o valor de n para o campo de possibilidades: ");
-		scanf("%Lf",&n);
-    }
+//Escrever variável r
+void Writer(){		
+	__mingw_printf("A probabilidade de %.0Lf  /  %.0Lf\n\n", r, R);
 }
-void Lerp(){	//Ler variável p
-	while (p<0){
-		printf("\nDigite o valor de p para o campo de possibilidades: ");
-		scanf("%Lf",&p);
-    }
+//Contar os dígitos escrever quantidade
+void contagemDigitos(){ 
+	while (a<=R){
+		a=a*10;
+		d++;
+	}
+	__mingw_printf("Este número possui %.0Lf dígitos\nEste numero possui %.0Lf digitos\n\n", d, d);
+	a=1;
+	d=0;
 }
-void Writer(){		//Escrever variável r
-	printf("A probabilidade é de %.0Lf/%.0Lf\n\n", r, R);
-	N= -1, M= -1, P= -1, n= -1, p= -1;
+void trocar (){     //Função de troca de valores entre variáveis
+    y = R;
+    R = r;
+    r = y;
 }
-int main() {
-    while (M!=8){
-        while (M<0 || M>8){  	//Menu para selecionar a operação
-            printf("Selecione uma expressão:\n1-Permutação simples\n2-Arranjo simples\n3-Combinação simples\n4-Probabilidade\n5-Permutação circular\n6-Arranjo com repetição\n7-Combinação com repetição\n8-Sair\n\n");
-            scanf("%d", &M);
-        }
+//Cronometrar tempo
+void Cronometro1(long double (*funcao)(int)) {
+    // Registra o tempo de início
+	tempo = 0.0;
+    clock_t start = clock();
+    // Chama a função que executa a ação
+    R=funcao(N);
+    // Registra o tempo de término
+    clock_t end = clock();
+    // Calcula a diferença de tempo em milissegundos
+    tempo = ((long double)(end - start)) / CLOCKS_PER_SEC * 1000.0;
+    // Exibe o tempo de execução para a ação
+    __mingw_printf("O tempo decorrido foi de %.5Lf ms\n", tempo);
+	N=-1, M=-1;
+}
+void Cronometro2(long double (*funcao)(int, int)) {
+    // Registra o tempo de início
+	tempo = 0.0;
+    clock_t start = clock();
+    // Chama a função que executa a ação
+    R=funcao(N,P);
+    // Registra o tempo de término
+    clock_t end = clock();
+    // Calcula a diferença de tempo em milissegundos
+    tempo = ((long double)(end - start)) / CLOCKS_PER_SEC * 1000.0;
+    // Exibe o tempo de execução para a ação
+    __mingw_printf("O tempo decorrido foi de %.5Lf ms\n", tempo);
+	P=-1, N=-1, M=-1;
+}
+//Declaração das rotinas de menu
+void CaseMain();
+void CaseProb();
+//Menu inicial do programa para seleção de expressão
+void CaseMain(){
+	printf("Selecione uma expressão / Selecione uma expressao (limite do fatorial 1754):\n1-Permutação simples / Permutacao simples\n2-Arranjo simples\n3-Combinação simples / Combinacao simples\n4-Probabilidade\n5-Permutação circular / Permutacao circular\n6-Arranjo com repetição / Arranjo com repeticao (até 18^18)\n7-Combinação com repetição / Combinacao com repeticao\n8-Sair\n\n");
+        scanf("%d", &M);
 	    switch(M){
-		    case 1:  	//permutação simples
+			//permutação simples
+		    case 1:{
 			    LerN();
-			    R=permu(N);
+				Cronometro1(permu);
 			    WriteR();
+				contagemDigitos();
+				CaseMain();
     			break;
-		    case 2: 	//arranjo simples
+			}
+			//arranjo simples
+		    case 2:{
                 LerN();
                 LerP();
-                R=arranjo(N,P);
+				Cronometro2(arranjo);
     			WriteR();
+				contagemDigitos();
+				CaseMain();
             break;
-            case 3: 	//combinação simples
+			}
+			//combinação simples
+            case 3:{
 			   	LerN();
-                LerP();   
-                R=combi(N,P);
+                LerP();  
+				Cronometro2(combi);
 			    WriteR();
+				contagemDigitos();
+				CaseMain();  
             break;
-            case 4: 	//verificar qual caso de probabilidade
-                M=-1;
-                while (M<1 || M>7){		//Menu para selecionar a probabilidade a partir de uma operação
-                    printf("Qual o tipo de probabilidade?\n1-Permutação simples\n2-Arranjo simples\n3-Combinação simples\n4-Permutação circular\n5-Arranjo com repetição\n6-Combinação com repetição\n7-Sair\n\n");
-                    scanf("%d", &M);
-                }
-                switch(M){ 
-		            case 1:		//Probabilidade de permutação simples
-			            LerN();
-			            R=permu(N);
-                        Lern();
-			            r=permu(n);
-			            Writer();
-    		        break;
-		            case 2:		//Probabilidade de arranjo simples
-                        LerN();
-                		LerP();
-                        R=arranjo(N,P);
-                        Lern();
-                		Lerp();
-			            r=arranjo(n,p);
-			            Writer();
-                    break;
-                    case 3:		//Probabilidade de combinação simples
-			            LerN();
-                		LerP();
-                        R=combi(N,P);
-                        Lern();
-                		Lerp();
-                        r=combi(n,p);
-                        Writer();
-                    break;
-                    case 4:		//Probabilidade de permutação circular
-			            LerN();
-			            R=permucircu(N);
-                        Lern();
-			            r=permucircu(n);
-			            Writer();
-                    break;
-                    case 5:		//Probabilidade de arranjo com repetição
-			            LerN();
-                		LerP();
-                        R=arranrepete(N,P);
-                        Lern();
-                		Lerp();
-			            r=arranrepete(n,p);
-			            Writer();
-                    break;
-                    case 6: 	//Probabilidade de combinação com repetição
-			            LerN();
-                		LerP();
-                        R=combirepete(N,P);
-                        Lern();
-                		Lerp();
-                        r=combirepete(n,p);
-                        Writer();
-                    break;
-                    case 7: //sair
-			            printf("Saindo\n\n");
-			            M=-1;
-                    break;
-				} 
-            break;
-            case 5: 	//permutação circular
+			}
+			//menu para probabilidade de cada operação
+            case 4:{
+            	CaseProb();
+            	break;  
+			}
+			//permutação circular
+            case 5:{
 			   	LerN();
-				R=permucircu(N);
+				Cronometro1(permuCircu);
 			   	WriteR();
+				contagemDigitos();
+				CaseMain();
             break;
-            case 6: 	//arranjo com repetição
+			}
+			//arranjo com repetição
+            case 6:{
             	LerN();
             	LerP();
-			   	R=arranrepete(N,P);	
+				Cronometro2(arranRepete);
 			   	WriteR();
+				contagemDigitos();
+				CaseMain();
             break;
-            case 7: 	//combinação com repetição
+			}
+			//combinação com repetição
+            case 7:{
             	LerN();
             	LerP();
-			   	R=combirepete(N,P);
+				Cronometro2(combiRepete);
 			   	WriteR();
+				contagemDigitos();
+				CaseMain();
             break;
-            case 8:		//encerrar o programa
+			}
+			//encerrar o programa
+            default:{	
             	printf("Encerrando\n");
             break;
+			}
 	    }
-    }
+}
+//Menu para selecionar a probabilidade a partir de uma operação
+void CaseProb(){	
+    printf("Qual o tipo de probabilidade (limite do fatorial 1754)?\n1-Permutação simples / Permutacao simples\n2-Arranjo simples\n3-Combinação simples / Combinacao simples\n4-Permutação circular / Permutacao circular\n5-Arranjo com repetição / Arranjo com repeticao (até 18^18)\n6-Combinação com repetição / Combinacao com repeticao\n7-Sair\n\n");
+    scanf("%d", &M); 
+    switch(M){ 
+		//permutação simples
+		case 1:{
+    		LerN();
+			Cronometro1(permu);
+			r=R;
+    		LerN();
+			Cronometro1(permu);
+			trocar();
+			Writer();
+			CaseMain();
+    		break;
+		}
+		//arranjo simples
+		case 2:{
+    		LerN();
+    		LerP();
+			Cronometro2(arranjo);
+			r=R;
+    		LerN();
+    		LerP();
+			Cronometro2(arranjo);
+			trocar();
+			Writer();
+			CaseMain();
+        	break;
+		}
+		//combinação simples
+    	case 3:{	
+			LerN();
+        	LerP();
+			Cronometro2(combi);
+			r=R;
+			LerN();
+        	LerP();
+			Cronometro2(combi);
+			trocar();
+        	Writer();
+        	CaseMain();
+    		break;
+		}
+		//permutação circular
+    	case 4:{
+			LerN();
+			Cronometro1(permuCircu);
+			r=R;
+        	LerN();
+			Cronometro1(permuCircu);
+			trocar();
+			Writer();
+			CaseMain();
+        	break;
+		}
+		//arranjo com repetição
+    	case 5:{
+			LerN();
+		    LerP();
+			Cronometro2(arranRepete);
+			r=R;
+			LerN();
+    	    LerP();
+			Cronometro2(arranRepete);
+			trocar();
+			Writer();
+			CaseMain();
+    	    break;
+		}
+		//combinação com repetição
+    	case 6:{	
+			LerN();
+    	    LerP();
+			Cronometro2(combiRepete);
+			r=R;
+			LerN();
+    	    LerP();
+			Cronometro2(combiRepete);
+			trocar();
+    	    Writer();
+    	    CaseMain();
+    	    break;
+		}
+		//sair
+    	default:{
+			printf("Saindo\n\n");			            
+    	    break;
+		}
+	}
+}
+int main() {
+    CaseMain();
     return 0;
 }
