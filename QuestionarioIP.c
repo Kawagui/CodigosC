@@ -5,9 +5,9 @@ void Menu (char y[]){
     do{scanf("%s", &M);
         printf("%s", (M>=65&&M<=91)?"Por favor, responda sem Caps Lock ativo.\n":(M<97||M>99)?"Por favor, responda com 'a','b' ou 'c'.\n":"RESPOSTA ACEITA E ");
     }while(M<97||M>99);
-    if (M==y[i]){printf("ESTÁ CORRETA!\n");
+    if (M==y[i]){printf("ESTÁ CORRETA!\n\n");
         x++;
-    } else {printf("RESPOSTA INCORRETA!\n");}
+    } else {printf("ESTÁ INCORRETA!\n\n");}
 }
 int main(){
     printf("Quiz 'Final da primeira semana'\n");
@@ -15,6 +15,6 @@ int main(){
     for(i=0;i<15;i++){printf("%d%s", i+1, Quest[i]);
         Menu(Gab);
     }
-    printf("Pontuação: %d\nGabarito: 1. a, 2. b, 3. b, 4. a, 5. b, 6. c, 7. a, 8. a, 9. b, 10. b, 11. a, 12. b, 13. b, 14. b, 15. b", x);
+    printf("Pontuação: %d\nGabarito: 1. a, 2. b, 3. b, 4. a, 5. b, 6. c, 7. a, 8. a, 9. b, 10. b, 11. a, 12. b, 13. b, 14. b, 15. b\n", x);
     return 0;
 }
