@@ -4,18 +4,18 @@
 #include <float.h>
 // Problemas a resolver: Tempo, Busca binária, contadores, DevC++
 //Todas as principais variáveis usadas, informações de cada uma têm no documento
-int TAM, i, j, r, k, x, *vBase, *R, *vBubble, *vInsert, *vSelect, *vHeap, *vRadix, *vMerge, *vQuick, *vShell, *vBinary, M= -1, CT, CC;
-long double tempo;
+int TAM, i, j, r, k, x, *vBase, *R, *vBubble, *vInsert, *vSelect, *vHeap, *vRadix, *vMerge, *vQuick, *vShell, M= -1, CT, CC;
+/* long double tempo;
 struct timespec (nome variável);
 clock_gettime (CLOCK_MONOTONIC, &tiInsert);
 			sortInsert(vInsert, TAM);
 			clock_gettime (CLOCK_MONOTONIC, &tfInsert);
 			tempo = tfInsert.tv_nsec - tiInsert.tv_nsec;
 			printVetor(vInsert, TAM);
-			printf("\nTempo: %.0Lf ns\n", tempo);
-
+			printf("\nTempo: %.0Lf ns\n", tempo); */
+// Cronometrar tempo de cada função de ordenação
 void Crono(long double tempo, void *fun, REGISTRO *reg, int TAM){
-    long double x, y;
+    struct timespec x, y;
     clock_gettime (CLOCK_MONOTONIC, &x);
     fun(*reg, TAM);
     clock_gettime (CLOCK_MONOTONIC, &y);
@@ -24,6 +24,7 @@ void Crono(long double tempo, void *fun, REGISTRO *reg, int TAM){
 
 //Troca de valores entre variáveis de qualquer distância utilizado pelo Heap e Select
 void Troca(int *a, int *b) {
+    int x;
     x = *a;
     *a = *b;
     *b = x;
