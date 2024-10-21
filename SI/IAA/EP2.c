@@ -5,6 +5,14 @@
 // Problemas a resolver: Tempo, Busca binária, contadores, DevC++
 //Todas as principais variáveis usadas, informações de cada uma têm no documento
 int TAM, i, j, r, k, x, *vBase, *R, *vBubble, *vInsert, *vSelect, *vHeap, *vRadix, *vMerge, *vQuick, *vShell, M= -1, CT, CC;
+typedef struct {
+    int chave;
+    int campoDaEstrutura[1];
+} Registro1;
+typedef struct {
+    int chave;
+    int campoDaEstrutura[1000];
+} Registro1000;
 /* long double tempo;
 struct timespec (nome variável);
 clock_gettime (CLOCK_MONOTONIC, &tiInsert);
@@ -41,7 +49,6 @@ void bubble (int vet[], int TAM){
 		    }   
 	    }
     }
-
 }
 //Insert sort
 void insert (int *vet, int tam){        
