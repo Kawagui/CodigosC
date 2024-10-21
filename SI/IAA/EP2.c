@@ -7,6 +7,21 @@
 int TAM, i, j, r, k, x, *vBase, *R, *vBubble, *vInsert, *vSelect, *vHeap, *vRadix, *vMerge, *vQuick, *vShell, *vBinary, M= -1, CT, CC;
 long double tempo;
 struct timespec (nome variável);
+clock_gettime (CLOCK_MONOTONIC, &tiInsert);
+			sortInsert(vInsert, TAM);
+			clock_gettime (CLOCK_MONOTONIC, &tfInsert);
+			tempo = tfInsert.tv_nsec - tiInsert.tv_nsec;
+			printVetor(vInsert, TAM);
+			printf("\nTempo: %.0Lf ns\n", tempo);
+
+void Crono(long double tempo, function *fun, REGISTRO *reg, int TAM){
+    long double x, y;
+    clock_gettime (CLOCK_MONOTONIC, &x);
+    fun(*reg, TAM);
+    clock_gettime (CLOCK_MONOTONIC, &y);
+    tempo = y.tv_nsec - x.tv_nsec;
+}
+
 //Troca de valores entre variáveis de qualquer distância utilizado pelo Heap e Select
 void Troca(int *a, int *b) {
     x = *a;
