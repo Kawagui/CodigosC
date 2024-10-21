@@ -1,10 +1,12 @@
 #include <stdio.h> 
 #include <stdlib.h>
 #include <time.h>
+#include <float.h>
 // Problemas a resolver: Tempo, Busca binária, contadores, DevC++
 //Todas as principais variáveis usadas, informações de cada uma têm no documento
 int TAM, i, j, r, k, x, *vBase, *R, *vBubble, *vInsert, *vSelect, *vHeap, *vRadix, *vMerge, *vQuick, *vShell, *vBinary, M= -1, CT, CC;
-float tempo;
+long double tempo;
+struct timespec (nome variável);
 //Troca de valores entre variáveis de qualquer distância utilizado pelo Heap e Select
 void Troca(int *a, int *b) {
     x = *a;
