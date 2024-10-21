@@ -14,7 +14,7 @@ clock_gettime (CLOCK_MONOTONIC, &tiInsert);
 			printVetor(vInsert, TAM);
 			printf("\nTempo: %.0Lf ns\n", tempo);
 
-void Crono(long double tempo, function *fun, REGISTRO *reg, int TAM){
+void Crono(long double tempo, void *fun, REGISTRO *reg, int TAM){
     long double x, y;
     clock_gettime (CLOCK_MONOTONIC, &x);
     fun(*reg, TAM);
