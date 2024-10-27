@@ -1,70 +1,37 @@
 /*********************************************************************/
-/**   ACH2023 - Algoritmos e Estruturas de Dados I                  **/
-/**   EACH-USP - Segundo Semestre de 2024                           **/
-/**                                                                 **/
-/**   Primeiro Exercicio-Programa                                   **/
-/**                                                                 **/
-/**   <nome do(a) aluno(a)>                  <numero USP>   <turma> **/
-/**                                                                 **/
+/**   ACH2023 - Algoritmos e Estruturas de Dados I		  **/
+/**   EACH-USP - Segundo Semestre de 2024			   **/
+/**								 **/
+/**   Segundo Exercicio-Programa				    **/
+/**								 **/
+/**   <nome do(a) aluno(a)>		  <numero USP>   <turma> **/
+/**								 **/
 /*********************************************************************/
 
-/*
-A Maratona de Programacao que voce gerenciara tem um numero fixo de problemas definido na constante PROBLEMAS.
-Os problemas da maratona serao numerados de 0 (zero) ate PROBLEMAS-1.
-Havera uma lista ligada ordenada pela classificacao dos times, como discutido ao longo do enunciado.
-*/
 
 #include <stdlib.h>
 #include <stdio.h>
 
-#define false 0 //false possui valor 0
-#define true 1 //true possui valor 1
+#define false 0
+#define true 1
 
-#define PROBLEMAS 10 //Número de problemas 0 a 9
+#define LETRAS 26
 
-typedef int bool; //Definir tipo bool como int
+#define VALOR_a 97
 
-/*
-A estrutura TIME foi projetada para armazenar as informacoes de cada time participante da Maratona de Programacao.
-Ela e composta por quatro campos:
-   id – identificador numerico do time, comecando por 1 (um);
-   resolvidos – arranjo booleano com tamanho igual ao numero de problemas da maratona,
-   	que contera o valor true}, caso o Time tenha resolvido (corretamente) o problema e false}, caso contrario;
-   tentativas – arranjo de inteiros com tamanho igual ao numero de problemas da maratona,
-   	que contera o numero de tentativas (submissoes) do respectivo problema que o time fez ate conseguir resolver o problema; e
-   minutos – arranjo de inteiros com tamanho igual ao numero de problemas da maratona,
-   	que contera o numero de minutos passados desde o inicio da maratona ate o momento em que o time submeteu a solucao correta do respectivo problema.
-    	Para os problemas em que o time nao submeteu uma solucao correta, o valor 0 (zero) deve ser armazenado na respectiva posicao do arranjo.
-*/
-typedef struct {
-	int id;
-	bool resolvidos[PROBLEMAS];
-	int tentativas[PROBLEMAS];
-	int minutos[PROBLEMAS];
-} TIME;
+typedef int bool;
+
 
 /*
-A estrutura ELEMENTO foi projetada para armazenar cada elemento da lista duplamente ligada, ordenada, com no cabeca e nao circular
-	que voce gerenciara. Esta estrutura e composta por tres campos:
-   time (chave) – ponteiro (ou referencia) para o time participante da maratona;
-   ant – ponteiro (ou referencia) para o elemento anterior da lista ligada; e
-   prox – ponteiro (ou referencia) para o elemento seguinte da lista ligada.
+A estrutura NO foi projetada para armazenar os nos de nossa trie. Ela e composta por dois campos:
+  - contador: valor numerico que indica quantas copias da respectiva palavra estao armazenadas;
+  - filhos: campo do tipo ponteiro para ponteiros de NOs que tem por objetivo armazenar o endereco do arranjo de filhos do respectivo no ou NULL se o no nao possuir filhos.
 */
-typedef struct aux{
-	TIME* time;
-	struct aux* ant;
-	struct aux* prox;
-} ELEMENTO, *PONT;
+typedef struct aux {
+	int contador;
+	struct aux** filhos;
+} NO, * PONT;
 
-/*
-A estrutura  MARATONA foi projetada para representar a Maratona de Programacao. Esta estrutura e composta por dois campos:
-   cabeca – ponteiro (ou referencia) para o no cabeca da lista duplamente ligada;
-   numTimes – campo do tipo inteiro contendo o numero de times que estao participando da maratona.
-*/
-typedef struct {
-	PONT cabeca;
-	int numTimes;
-} MARATONA;
 
 /*
 Funcao usada em testes da correcao automatica
@@ -74,201 +41,300 @@ void print123(){
 
 }
 
+
 /*
-Funcao que recebe o endereco de um TIME e, se esse endereco for igual a NULL, retorna -1.
-Caso contrario, calcula e retorna a penalidade total (em minutos) recebida pelo time.
-A penalidade total de um time e dada pela soma dos minutos que o time levou para resolver cada problema
-(estes valores sao armazenados no arranjo minutos), considerando apenas os problemas efetivamente resolvidos,
-mais 20 minutos de penalizacao para cada submissao incorreta, considerando, novamente, apenas os problemas que o time conseguiu resolver.
-Por exemplo, se o time conseguiu resolver o problema numero 3 apenas na quinta tentativa e a tentativa correta ocorreu no minuto 110,
-havera uma penalizacao de 80 minutos referentes as tentativas incorretas, mais 110 minutos referentes ao tempo que o time levou para resolver esse problema.
-Assim, havera uma penalidade de 190 minutos referente ao problema de numero 3 (a penalidade total do time corresponde a soma das penalidades do time para todos os problemas da maratona).
-Destaca-se que problemas nao resolvidos corretamente tem penalidade igual a zero.
-*/
-int calcularPenalidade(TIME* time){
-
-	/* Complete o codigo desta funcao */  
-
-	return -1;
+Funcao que recebe como parametro o endereco da raiz de uma trie e realiza a inicializacao da estrutura. Isto e, atribui o valor 0 (zero) para o campo contador e o valor NULL para o campo filhos. */
+void inicializar(PONT raiz){
+	raiz->contador = 0;
+	raiz->filhos = NULL;
 }
 
 /*
-Funcao que recebe o endereco de um TIME e, se esse endereco for igual a NULL, retorna -1.
-Caso contrario, calcula e retorna o numero total de problemas resolvidos pelo respectivo time
-(o arranjo resolvidos armazena, para cada problema, se ele foi ou nao resolvido).
+Funcao que aloca memoria para um novo no, inicializa seus campos (valor zero para contador e NULL para filhos) e retorna o endereco do novo no.
 */
-int calcularProblemasResolvidosDoTime(TIME* time){
-
-/* Complete o codigo desta funcao */  
-
-	return -1;
+PONT criarNo(){
+	PONT novo = (PONT)malloc(sizeof(NO));
+	novo->contador = 0;
+	novo->filhos = NULL;
+	return novo;
 }
 
+
 /*
-Funcao que recebe o endereco de uma MARATONA e, se esse endereco for igual a NULL, retorna -1.
-Caso contrario, calcula e retorna o numero total de problemas que nenhum time ainda conseguiu resolver.
-Isto e, se a maratona tem 10 problemas e ha tres problemas que nenhum time resolveu, devera retornar 3.
+Funcao recursiva que recebe o endereco de um no e retorna o numero de nos da trie a partir do no atual. Se a funcao for chamada a partir da raiz, retornara o numero total de nos na trie.
 */
-int calcularProblemasNaoResolvidos(MARATONA* mar){
-
-/* Complete o codigo desta funcao */
-
-	return -1;
+int contarNos(PONT atual){
+	if (!atual) return 0;
+	int res = 1;
+	int i;
+	if (atual->filhos) 
+		for (i=0;i<LETRAS;i++)
+			if (atual->filhos[i])
+				res += contarNos(atual->filhos[i]);
+	return res;
 }
 
-/*
-Funcao que recebe cinco parametros: mar - endereco de uma MARATONA, id – identificador de um time,
-	problema – identificador de um problema, tempo – tempo, em minutos, da submissao,
- 	acerto – parametro booleano que indica se o problema foi resolvido corretamente ou nao.
-  	Esta funcao devera retornar false caso algum parametro seja invalido, isto e MAR igual a NULL, ou id fora do intervalo
-   	que vai de 1 ate o numero de times da respectiva maratona, ou problema fora do intervalo valido dos problemas (que vai de 0 a PROBLEMAS – 1).
-     	A funcao tambem devera retornar false caso o respectivo time ja tenha resolvido corretamente o problema
-      	cujo numero e dado pelo parametro problema. Isto e, submissoes de problemas ja resolvidos pelo time devem ser ignoradas.
-       	Caso contrario, a funcao deve atualizar as seguintes informacoes do time:
-(i) aumentar em uma unidade o numero de tentativas de resolucao pelo time para o respectivo problema; 
-(ii) caso o time tenha acertado a solucao (parametro acerto = true), (ii.a) atualizar para verdadeiro o respectivo valor do arranjo resolvidos};
-(ii.b) atualizar o valor do arranjo minutos}, atualizando o valor correspondente ao problema atual com o tempo passado como parametro;
-(ii.c) reposicionar, se necessario, o ELEMENTO correspondente ao time atual na lista duplamente ligada, ordenada, com no cabeca e nao circular.
-A lista e ordenada pela classificacao do time na maratona, a qual segue estas regras:
-	a lista e ordenada de forma decrescente do time que resolveu mais problemas para o time que resolveu menos problemas
-	e tendo como criterio de desempate as penalidades recebidas pelos times
- 	(dados dois times que resolveram a mesma quantidade de problemas, ficara na frente da lista [mais para o inicio da lista] aquele com menor penalidade).
-Se dois times empatarem nestes dois criterios, deve ficar a frente da lista aquele que ja estava a frente antes da atualizacao
-	(isto e, se o time A ja tinha resolvido dois problemas e tinha penalidade 200 e a funcao tratarSubmissao foi chamada para o time B que, agora, resolveu seu segundo problema e ficou com penalidade 200, o time A deve permanecer a frente na classificacao em relacao ao time B [como ja estava antes desta submissao]).
- 	Durante a atualizacao da posicao dos elementos da lista ligada preste bastante atencao para atualizar todos os ponteiros necessarios e nao esqueca que a lista e duplamente ligada e possui no cabeca.
-*/
-bool tratarSubmissao(MARATONA* mar, int id, int problema, int tempo, bool acerto){
-
-/* Complete o codigo desta funcao */  
-
-	return false;
-}
 
 /*
-Funcao que recebe como parametro o endereco de uma MARATONA e o numero de times
-que participarao da competicao e realiza a inicializacao da maratona.
-Isto e, cria a lista duplamente ligada com todos os times e o no cabeca, preenche o valor de todos os campos necessarios
-(valores dos times, elementos e da maratona propriamente dita) e retorna true.
-Porem, se os parametros recebidos forem invalidos, retorna false}, sem realizar a inicializacao.
-Destaca-se que durante a inicializacao, a lista ordenada dos times e criada e, neste momento, o time com id igual a 1 esta em primeiro lugar, com id igual a 2 em segundo e assim por diante (se a competicao acabar sem nenhuma resolucao dos problemas, esta sera a classificacao dos times).
+Funcao recursiva que recebe o endereco de um no e retorna o numero de arranjos de ponteiros para filhos da trie a partir do no atual, ou seja, retorna a quantidade de nos internos (nos que nao sao folha) da trie. Se a funcao for chamada a partir da raiz, retornara o numero total de arranjos na trie.
 */
-bool inicializarMaratona(MARATONA* mar, int numTimes){
-	if (!mar || numTimes < 1) return false;
-	int x,p;
-	ELEMENTO* novoElem;
-	TIME* novoTime;
-	mar->numTimes = numTimes;
-	mar->cabeca = (ELEMENTO*) malloc(sizeof(ELEMENTO));
-	mar->cabeca->ant = NULL;
-	mar->cabeca->prox = NULL;
-	mar->cabeca->time = NULL;
-	for (x=numTimes;x>0;x--){
-		novoElem = (ELEMENTO*) malloc(sizeof(ELEMENTO));
-		novoTime = (TIME*) malloc(sizeof(TIME));
-		novoTime->id = x;
-		for (p=0;p<PROBLEMAS;p++){
-			novoTime->resolvidos[p] = false;
-			novoTime->tentativas[p] = 0;
-			novoTime->minutos[p] = 0;
-		}
-		novoElem->time = novoTime;
-		novoElem->prox = mar->cabeca->prox;
-		novoElem->ant = mar->cabeca;
-		if(mar->cabeca->prox) mar->cabeca->prox->ant = novoElem;
-		mar->cabeca->prox = novoElem;
+int contarArranjos(PONT atual){
+	if (!atual) return 0;
+	int res = 0;
+	int i;
+	if (atual->filhos){
+		res++; 
+		for (i=0;i<LETRAS;i++)
+			if (atual->filhos[i])
+				res += contarArranjos(atual->filhos[i]);
 	}
-	return true;
+	return res;
 }
 
+
 /*
-Funcao que recebe o endereco de uma MARATONA e exibe informacoes basicas dos times de acordo com a ordem de classificacao
-(que e a ordem em que os times estao na lista ligada).
+Funcao recursiva que recebe o endereco de um no e retorna o numero de palavras diferentes da trie a partir do no atual. Palavras diferentes significa que cada palavra sera contada uma unica vez. Se a funcao for chamada a partir da raiz, retornara o numero total de palavras diferentes na trie.
 */
-void mostrarClassificacao(MARATONA* mar){
-	if (mar){
-		printf("\nClassificacao Atual:\n");
-		printf("Time\tProb.\tPenalidadade\n");
-		PONT atual = mar->cabeca->prox;
-		int solucoes, penalidade;
-		while (atual){
-			solucoes = calcularProblemasResolvidosDoTime(atual->time);
-			penalidade = calcularPenalidade(atual->time);
-			printf("%4i\t%4i\t%5i\n", atual->time->id, solucoes, penalidade);
-			atual = atual->prox;
-		}
-	}
+int contarPalavrasDiferentes(PONT atual){
+	if (!atual) return 0;
+	int res = 0;
+	if (atual->contador>0) res = 1;
+	int i;
+	if (atual->filhos) 
+		for (i=0;i<LETRAS;i++)
+			if (atual->filhos[i])
+				res += contarPalavrasDiferentes(atual->filhos[i]);
+	return res;
 }
 
+
+
 /*
-Funcao que recebe o endereco de um TIME e exibe informacoes basicas do time
-(identificador, numero de problemas resolvidos e penalidade total).
+Funcao recursiva que recebe o endereco de um no e retorna o numero de palavras da trie a partir do no atual. Uma palavra sera contada mais de uma vez, caso o campo contador seja maior do que 1. Se a funcao for chamada a partir da raiz, retornara o numero total de palavras na trie.
 */
-void exibirTime(TIME* t){
-	if (t){
-		printf("Time: %3i; solucoes: %2i; penalidade: %5i\n", t->id, calcularProblemasResolvidosDoTime(t), calcularPenalidade(t));
-		int p;
-		for (p=0;p<PROBLEMAS;p++){
-			printf("\t[%2i: %2i %3i %3i]\n", p, t->resolvidos[p], t->tentativas[p], t->minutos[p]);		
-		}
-		printf("\n");
-	}
+int contarPalavras(PONT atual){
+	if (!atual) return 0;
+	int res = atual->contador;
+	int i;
+	if (atual->filhos) 
+		for (i=0;i<LETRAS;i++)
+			if (atual->filhos[i])
+				res += contarPalavras(atual->filhos[i]);
+	return res;
 }
 
+
+
 /*
-Funcao que recebe o endereco de uma MARATONA e exibe as informacoes de todos os times (utilizando a funcao exibirTime)
+Funcao recursiva que recebe o endereco de um no, o endereco de um arranjo de caracteres e a posicao da letra atual da palavra. Caso o no atual corresponda a letra final de uma palavra (contador maior que zero) imprime a palavra atual. Se o no atual possuir filhos, realiza uma chamada recursiva para cada um de seus filhos adicionando a letra correspondente ao seu filho no arranjo palavra.
 */
-void exibirTodosTimes(MARATONA* mar){
-	if (mar){
-		printf("##### EXIBINDO TODOS OS TIMES #####\n");
-		PONT atual = mar->cabeca->prox;
-		while (atual){
-			exibirTime(atual->time);
-			atual = atual->prox;
-		}
+void exibirAux(PONT atual, char* palavra, int pos){
+	if (!atual) return;
+	if (atual->contador>0){
+		palavra[pos] = '\0';
+		printf("%3i %s [%i]\n", atual->contador,palavra, pos);
 	}
+	int i;
+	if (atual->filhos) 
+		for (i=0;i<LETRAS;i++)
+			if (atual->filhos[i]){
+				palavra[pos] = (char)(VALOR_a+i);
+				exibirAux(atual->filhos[i], palavra, pos+1);
+			}
 }
 
+
+
 /*
-Funcao main que realiza ALGUNS testes nas funcoes implementadas
-seu EP sera avaliado utilizando um conjunto distinto de testes.
-*/   
+Funcao que recebe o endereco da raiz de uma trie e o endereco de um arranjo de caracteres e imprime na tela, em ordem alfabetica, todas as palavras da trie (utilizando a funcao exibirAux). O arranjo de caracteres, chamado palavra, e usado para  compor cada palavra a partir da raiz e entao imprimir essas palavras.
+*/
+void exibir(PONT raiz, char* palavra){
+	exibirAux(raiz, palavra, 0);
+}
+
+
+
+/*
+Funcao que recebe o endereco do no raiz de uma trie (raiz), o endereco de um arranjo de caracteres (palavra) e o tamanho da palavra presente no arranjo de caracteres (n) e retorna o numero de copias dessa palavra na trie. Provavelmente voce desejara realizar a busca chamando uma funcao auxiliar recursiva (desenvolvida por voce) que tenha, ao menos, um parametro adicional para indicar qual a letra atual da busca. Caso a palavra nao exista na trie, sua funcao devera retornar 0 (zero), caso contrario, devera retornar o valor do campo contador do no correspondente a ultima letra da palavra.
+*/
+int buscarPalavra(PONT raiz, char* palavra, int n){
+  int resposta = 0;
+  
+  /* Complete o codigo desta funcao */ 
+
+  return resposta;
+}
+
+
+/*
+Funcao que recebe o endereco do no raiz de uma trie (raiz), o endereco de um arranjo de caracteres (palavra) e o tamanho da palavra presente no arranjo de caracteres (n) e insere essa palavra na trie. Provavelmente voce desejara realizar a insercao chamando uma funcao auxiliar recursiva (desenvolvida por voce) que tenha, ao menos, um parametro adicional para indicar qual a letra atual da chamada recursiva (assumindo que a cada chamada recursiva uma letra sera inserida/processada). Voce pode assumir que todos os parametros desta funcao terao valores validos e a palavra a ser inserida (presente no arranjo de caracteres) possuira apenas letras minusculas (sem acentos ou caracteres especiais). A insercao funciona da seguinte forma (potencialmente recursiva):
+  (i) se ainda falta inserir caractere(s) e o no atual nao possui arranjo de filhos, e necessario:
+     (a) criar esse arranjo, preencher suas posicoes com valores NULL e atribuir o endereco dele no campo filhos do no atual;
+     (b) criar o no correspondente ao proximo caractere, acertar seus campos (se voce usar a funcao criarNo ela ja acerta esses valores) e colocar o endereco dele na posicao correspondente do arranjo filhos; e
+     (c) continuar recursivamente com o processo sendo que, se voce acabou de criar o ultimo caractere da palavra, o campo contador deve receber o valor 1 e a insercao foi concluida.
+  (ii) se ainda falta inserir caractere(s) e o no atual possui o arranjo de filhos: caso o no correspondente ao proximo caractere ja exista no arranjo de filhos, basta prosseguir a insercao (recursivamente) a partir dele, caso contrario e necessario prosseguir de acordo com o processo (i.b).
+  (iii) se voce chegou ao ultimo caractere da palavra e ele ja existe na trie, e necessario incrementar seu campo contador em uma unidade.
+*/
+void inserir(PONT raiz, char* palavra, int n){
+
+  /* Complete o codigo desta funcao */ 
+  
+}
+
+
+
+/*
+Funcao que recebe o endereco do no raiz de uma trie (raiz), o endereco de um arranjo de caracteres (palavra) e o tamanho da palavra presente no arranjo de caracteres (n) e exclui todas as copias dessa palavra da trie. Provavelmente voce desejara realizar a exclusao chamando uma funcao auxiliar recursiva (desenvolvida por voce) que tenha, ao menos, um parametro adicional para indicar qual a letra atual da chamada recursiva (assumindo que cada chamada recursiva avancara uma letra na arvore). Adicionalmente, se a operacao de exclusao resultar na eliminacao de um no, pode ser necessario, recursivamente, apagar alguns dos nos anteriores, neste caso, voce pode precisar de mais um parametro adicional na sua funcao auxiliar recursiva ou ela pode ter um retorno (potencialmente booleano) para indicar que e necessario excluir nos na volta da chamada recursiva. Voce pode assumir que todos os parametros desta funcao terao valores validos e a palavra a ser excluida (presente no arranjo de caracteres) possuira apenas letras minusculas (sem acentos ou caracteres especiais). E possivel que a palavra nao exista na sua trie, entao a funcao de exclusao nao causara nenhuma mudanca na trie. A exclusao funciona da seguinte forma (potencialmente recursiva):
+ Voce navegara na trie, caractere a caractere, ate passar por toda a palavra, isto e, chegar no caractere final da palavra. 
+ (i) Se isto nao for possivel, isto e, se a sequencia de caracteres que forma a palavra nao esta presente na trie, sua funcao devera encerrar sem realizar nenhuma mudanca na estrutura; caso contrario, ha duas possibilidades principais:
+ (ii) A palavra nao existe na trie (isto e, apesar de suas letras estarem la, o campo contador da ultima letra e igual a zero), neste caso, sua funcao deve encerrar sem modificar a estrutura;    
+ (iii) A palavra existe na trie, neste caso ela dever ser excluida, considerando duas situacoes:
+    (a) O no correspondente a ultima letra possui filhos, neste caso o contador dele devera ser zerado e nao ha mais nada a ser feito pela funcao; 
+    (b) Caso o no correspondente a ultima letra nao possua filhos ele devera ser excluido, e o ponteiro para ele no arranjo de filhos de seu pai deve ser atualizado para NULL. Se apos essa exclusao, o pai desse no nao possuir mais filhos, seu arranjo de filhos deve ser excluido (memoria liberada) e seu campo filhos deve receber o valor NULL. Adicionalmente, se o campo contador do no pai valer zero este tambem deve ser apagado (e o processo iii.b deve ser repetido enquanto cada no [na volta da recursao] nao possuir mais filhos e nao for um no final de uma palavra).
+Observacao: o no raiz nunca devera ser excluido, porem seu arranjo de filhos podera ser excluido caso este no nao possua filhos (trie sem nenhuma palavra) e, neste caso, seu campo filhos devera ser atualizado para NULL.
+*/
+void excluirTodas(PONT raiz, char* palavra, int n){
+
+  /* Complete o codigo desta funcao */ 
+
+}
+
+
+
+/*
+Funcao que recebe o endereco do no raiz de uma trie (raiz), o endereco de um arranjo de caracteres (palavra) e o tamanho da palavra presente no arranjo de caracteres (n) e exclui uma copia dessa palavra da trie (isto e, caso a palavra exista na trie, diminui o contador correspondente a sua ultima letra em uma unidade). Observacoes: se a palavra nao existir na trie, nao ha nada a ser feito pela funcao; se a palavra existir e o contador valer 1 (um) antes da exclusao, entao a exclusao tera o mesmo comportamento da funcao excluirTodas.
+*/
+void excluir(PONT raiz, char* palavra, int n){
+
+  /* Complete o codigo desta funcao */ 
+
+}
+
+
+
+
+/*
+Funcao main que realiza ALGUNS testes nas funcoes implementadas.
+Seu EP sera avaliado utilizando um conjunto distinto de testes.
+*/
 int main(){
-	MARATONA m1;
-	inicializarMaratona(&m1, 5);
-	printf("Numero de problemas ainda nao resolvidos: %i\n", calcularProblemasNaoResolvidos(&m1));
-	mostrarClassificacao(&m1);
-	exibirTime(m1.cabeca->prox->time);
-	if (!tratarSubmissao(&m1, 2, 3, 25, false)) printf("A funcao retornou false. [PROBLEMA]\n");
-	mostrarClassificacao(&m1);
-	if (!tratarSubmissao(&m1, 2, 3, 35, true)) printf("A funcao retornou false. [PROBLEMA]\n");
-	mostrarClassificacao(&m1);
-	if (!tratarSubmissao(&m1, 4, 2, 40, true)) printf("A funcao retornou false. [PROBLEMA]\n");
-	mostrarClassificacao(&m1);
-	if (!tratarSubmissao(&m1, 5, 4, 40, true)) printf("A funcao retornou false. [PROBLEMA]\n");
-	mostrarClassificacao(&m1);
-	if (!tratarSubmissao(&m1, 5, 2, 55, false)) printf("A funcao retornou false. [PROBLEMA]\n");
-	mostrarClassificacao(&m1);
-	if (!tratarSubmissao(&m1, 5, 2, 58, false)) printf("A funcao retornou false. [PROBLEMA]\n");
-	mostrarClassificacao(&m1);
-	if (!tratarSubmissao(&m1, 5, 2, 60, true)) printf("A funcao retornou false. [PROBLEMA]\n");
-	mostrarClassificacao(&m1);
-	if (!tratarSubmissao(&m1, 1, 7, 65, false)) printf("A funcao retornou false. [PROBLEMA]\n");
-	mostrarClassificacao(&m1);
-	if (!tratarSubmissao(&m1, 3, 8, 70, true)) printf("A funcao retornou false. [PROBLEMA]\n");
-	mostrarClassificacao(&m1);
-	if (!tratarSubmissao(&m1, 1, 8, 75, true)) printf("A funcao retornou false. [PROBLEMA]\n");
-	mostrarClassificacao(&m1);
-	if (!tratarSubmissao(&m1, 5, 7, 90, true)) printf("A funcao retornou false. [PROBLEMA]\n");
-	mostrarClassificacao(&m1);
-	if (tratarSubmissao(&m1, 5, 7, 93, true)) printf("A funcao retornou true. [PROBLEMA]\n");
+	NO raiz1;
+	char* temp = (char*)malloc(sizeof(char)*1025);
 
-	if (!tratarSubmissao(&m1, 1, 1, 95, true)) printf("A funcao retornou false. [PROBLEMA]\n");
-	mostrarClassificacao(&m1);
-	if (!tratarSubmissao(&m1, 5, 1, 99, false)) printf("A funcao retornou false. [PROBLEMA]\n");
-	mostrarClassificacao(&m1);
-	exibirTodosTimes(&m1);
-	printf("Numero de problemas ainda nao resolvidos: %i\n", calcularProblemasNaoResolvidos(&m1));
-	printf("\nCampeao:\n");
-	exibirTime(m1.cabeca->prox->time);
+	printf("\n### Inicializacao.\n");
+	inicializar(&raiz1);
+	exibir(&raiz1, temp);
+	printf("Numero de nos: %i\n", contarNos(&raiz1));
+	printf("Numero de arranjos: %i\n", contarArranjos(&raiz1));
+	printf("Numero de palavras: %i\n", contarPalavras(&raiz1));
+	printf("Numero de palavras diferentes: %i\n", contarPalavrasDiferentes(&raiz1));
+
+	printf("\n### Primeiras insercoes.\n");
+	inserir(&raiz1, "teste", 5);
+	inserir(&raiz1, "teste", 5);
+	exibir(&raiz1, temp);
+	printf("Numero de nos: %i\n", contarNos(&raiz1));
+	printf("Numero de arranjos: %i\n", contarArranjos(&raiz1));
+	printf("Numero de palavras: %i\n", contarPalavras(&raiz1));
+	printf("Numero de palavras diferentes: %i\n", contarPalavrasDiferentes(&raiz1));
+
+	printf("\n### Mais insercoes.\n");
+	inserir(&raiz1, "testemunha", 10);
+	inserir(&raiz1, "testemunhe", 10);
+	exibir(&raiz1, temp);
+	printf("Numero de nos: %i\n", contarNos(&raiz1));
+	printf("Numero de arranjos: %i\n", contarArranjos(&raiz1));
+	printf("Numero de palavras: %i\n", contarPalavras(&raiz1));
+	printf("Numero de palavras diferentes: %i\n", contarPalavrasDiferentes(&raiz1));	
+
+	printf("\n### Mais insercoes.\n");
+	inserir(&raiz1, "testa", 5);
+	inserir(&raiz1, "testamento", 10);
+	exibir(&raiz1, temp);
+	printf("Numero de nos: %i\n", contarNos(&raiz1));
+	printf("Numero de arranjos: %i\n", contarArranjos(&raiz1));
+	printf("Numero de palavras: %i\n", contarPalavras(&raiz1));
+	printf("Numero de palavras diferentes: %i\n", contarPalavrasDiferentes(&raiz1));
+
+	printf("\n### Exclusoes.\n");
+	excluir(&raiz1, "teste", 5);
+	excluir(&raiz1, "teste", 5);
+	exibir(&raiz1, temp);
+	printf("Numero de nos: %i\n", contarNos(&raiz1));
+	printf("Numero de arranjos: %i\n", contarArranjos(&raiz1));
+	printf("Numero de palavras: %i\n", contarPalavras(&raiz1));
+	printf("Numero de palavras diferentes: %i\n", contarPalavrasDiferentes(&raiz1));
+
+	printf("\n### Mais exclusoes.\n");
+	excluir(&raiz1, "teste", 5);
+	excluir(&raiz1, "testemunha", 10);
+	excluir(&raiz1, "testemunhe", 10);
+	exibir(&raiz1, temp);
+	printf("Numero de nos: %i\n", contarNos(&raiz1));
+	printf("Numero de arranjos: %i\n", contarArranjos(&raiz1));
+	printf("Numero de palavras: %i\n", contarPalavras(&raiz1));
+	printf("Numero de palavras diferentes: %i\n", contarPalavrasDiferentes(&raiz1));
+
+	printf("\n### Mais insercoes.\n");
+	inserir(&raiz1, "abacate", 7);
+	inserir(&raiz1, "abacaxi", 7);
+	inserir(&raiz1, "abacaxi", 7);
+	inserir(&raiz1, "abacaxi", 7);
+	inserir(&raiz1, "abobora", 7);
+	inserir(&raiz1, "banana", 6);
+	inserir(&raiz1, "caju", 4);
+	inserir(&raiz1, "melancia", 8);
+	inserir(&raiz1, "melao", 5);
+	inserir(&raiz1, "abacaxi", 7);
+	inserir(&raiz1, "melao", 5);
+	inserir(&raiz1, "melao", 5);
+	exibir(&raiz1, temp);
+	printf("Numero de nos: %i\n", contarNos(&raiz1));
+	printf("Numero de arranjos: %i\n", contarArranjos(&raiz1));
+	printf("Numero de palavras: %i\n", contarPalavras(&raiz1));
+	printf("Numero de palavras diferentes: %i\n", contarPalavrasDiferentes(&raiz1));
+
+	printf("\n### Exclusoes (excluir todas as copias).\n");
+	excluirTodas(&raiz1, "teste", 5);
+	excluirTodas(&raiz1, "abacaxi", 7);
+	excluirTodas(&raiz1, "testa", 5);
+	exibir(&raiz1, temp);
+	printf("Numero de nos: %i\n", contarNos(&raiz1));
+	printf("Numero de arranjos: %i\n", contarArranjos(&raiz1));
+	printf("Numero de palavras: %i\n", contarPalavras(&raiz1));
+	printf("Numero de palavras diferentes: %i\n", contarPalavrasDiferentes(&raiz1));
+
+	printf("\n### Buscas.\n");
+	printf("Foram encontradas %i copia(s) da palavra 'testa'.\n",buscarPalavra(&raiz1, "testa", 5));
+	printf("Foram encontradas %i copia(s) da palavra 'mel'.\n",buscarPalavra(&raiz1, "mel", 3));
+	printf("Foram encontradas %i copia(s) da palavra 'melao'.\n",buscarPalavra(&raiz1, "melao", 5));
+	printf("Foram encontradas %i copia(s) da palavra 'melancia'.\n",buscarPalavra(&raiz1, "melancia", 8));
+	
+	printf("\n### Exclusoes adicionais (eliminando cada uma das palavras restantes).\n");
+	excluirTodas(&raiz1, "abacate", 7);
+	excluirTodas(&raiz1, "abobora", 7);
+	excluirTodas(&raiz1, "banana", 6);
+	excluirTodas(&raiz1, "caju", 4);
+	excluirTodas(&raiz1, "melancia", 8);
+	excluirTodas(&raiz1, "melao", 5);
+	excluirTodas(&raiz1, "testamento", 10);
+	exibir(&raiz1, temp);
+	printf("Numero de nos: %i\n", contarNos(&raiz1));
+	printf("Numero de arranjos: %i\n", contarArranjos(&raiz1));
+	printf("Numero de palavras: %i\n", contarPalavras(&raiz1));
+	printf("Numero de palavras diferentes: %i\n", contarPalavrasDiferentes(&raiz1));
+
+	
+	printf("\n### Repetindo primeiras insercoes.\n");
+	inserir(&raiz1, "teste", 5);
+	inserir(&raiz1, "teste", 5);
+	exibir(&raiz1, temp);
+	printf("Numero de nos: %i\n", contarNos(&raiz1));
+	printf("Numero de arranjos: %i\n", contarArranjos(&raiz1));
+	printf("Numero de palavras: %i\n", contarPalavras(&raiz1));
+	printf("Numero de palavras diferentes: %i\n", contarPalavrasDiferentes(&raiz1));
+
+	
+
 	return 0;
 }
