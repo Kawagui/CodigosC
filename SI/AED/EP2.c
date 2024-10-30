@@ -11,6 +11,7 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 
 #define false 0
 #define true 1
@@ -159,6 +160,16 @@ Funcao que recebe o endereco do no raiz de uma trie (raiz), o endereco de um arr
 */
 int buscarPalavra(PONT raiz, char* palavra, int n){
   int resposta = 0;
+		if(!raiz || strlen(palavra)!=n) return 0;
+			if(raiz->filhos)
+			for(int j=0;j<n;j++){
+				for(int i=0;i<LETRAS;i++)
+					if(!raiz->filhos[i]){
+							if((char)(VALOR_a+i)==palavra[j])
+								raiz=raiz->filhos[i];
+						} else return 0;
+			}
+			return raiz->contador;
   
   /* Complete o codigo desta funcao */ 
 
