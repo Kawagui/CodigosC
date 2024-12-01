@@ -8,6 +8,8 @@
 /**								                                    **/
 /*********************************************************************/
 
+// INCOMPLETO!!!
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>	
@@ -25,9 +27,9 @@ A estrutura NO foi projetada para armazenar os nos de nossa trie. Ela e composta
         que tem por objetivo armazenar o endereco do arranjo de filhos do respectivo no ou NULL se o no nao possuir filhos.
 */
 typedef struct aux {
-	int contador;
-	struct aux** filhos;
-} NO, * PONT;   // Tamanho de 16 bytes - 4 para int + 8 para ponteiro + 4 para alinhar com tamanho do ponteiro
+	int contador;			// Contar quantas cópias de uma palavra estão presentes na trie
+	struct aux** filhos;	// Ponteiro para um ponteiro de arranjo de struct aux
+} NO, * PONT;   			// Tamanho de 16 bytes - 4 para int + 8 para ponteiro + 4 para alinhar com tamanho do ponteiro
 
 /*
 Funcao usada em testes da correcao automatica
@@ -152,29 +154,57 @@ void exibir(PONT raiz, char* palavra){
 	exibirAux(raiz, palavra, 0);
 }
 
-int buscarLetra(PONT ref, char* palavra, int n, int m, int id){
-	if(!ref || strlen(palavra)!=n || n==m){
-		if(id==4 && n==m)
-			return ref->contador--;
-		if(id==1 && n==m)
-			return ref->contador;
-		if(id==2 && n==m)
-			ref->contador++;
+// id: 1=buscarPalavra, 2=inserir, 3=excluirTodas, 4=excluir
+int buscarLetra(PONT *ref, char* palavra, int n, int m, int id){
+	if(!ref)								// Verificar se o endereço é válido
 		return 0;
-	}
-	int i=(int)palavra[m]-VALOR_a;
-	if(!ref->filhos && id==2){
-		ref->filhos=(PONT*)malloc(VALOR_a*sizeof(NO));
-		for(int j=0;j<VALOR_a;j++)
-			ref->filhos[j]=NULL;
-	}
-	if(!ref->filhos[i] && id==2){
-		ref->filhos[i]=criarNo();
-		//printf("Foi criado um filho %c em %p\n", palavra[m], &ref->filhos[(int)(palavra[i]-VALOR_a)]);
-	}
-	//printf("Encontrou a letra %c\n", VALOR_a+i);
-	ref=ref->filhos[i], m++;
-	return buscarLetra(ref, palavra, n, m, id);
+	int i=(int)palavra[m]-VALOR_a;			// Variável para conter o índice equivalente a letra atual
+		if(n==m){							// Verificar se chegou na última letra da palavra
+			switch (id){					// Verificar id
+				case 1:						// Final de buscarPalavra
+					return ref[m]->contador;// Retornar contador da última letra
+					break;
+				case 2:						// Final de inserir
+					ref[m]->contador++;		// Incrementar contador
+					return 0;				
+					break;
+				case 4:
+					if(ref[m]->contador>1)			// Se houver mais de duas cópias a função termina aqui com decremento do contador
+						return ref[m]->contador--;	// Caso contrário executar ExcluirTodas vulgo case 3
+				case 3:
+					ref[m]->contador=0;						// Zerar contador para excluir todas as cópias
+					for(m=n-1;m>0;m--){						// Percorrer o vetor de endereços para verificar se deve liberar o nó começando pelo pai da última letra até a primeira
+						int k=(int)palavra[m+1]-VALOR_a;	// Variável para conter o índice equivalente a letra atual
+						if(!(ref[m+1]==NULL))				// Verificar se o endereço é válido
+							if(!(ref[m+1]->filhos==NULL))	// Verificar se o nó possui filhos
+								return 0;					// Se sim, terminar a função
+						if(!(ref[m+1]==NULL))				// Verificar se o endereço é válido
+							if(ref[m+1]->contador!=0)		// Verificar se o contador do nó é maior que 0
+								return 0;					// Se sim, terminar a função
+						free(ref[m+1]);						// Se não, excluir a letra (Obs.: Vai causar segmentation fault na linha 133, não consegui arrumar)
+						ref[m]->filhos[k]=NULL;				// Substituir filho excluído por NULL do arranjo de filhos do pai
+						for(int j=0;j<LETRAS;j++)			
+							if(ref[m]->filhos[j]!=NULL)	// Verificar se o filho excluído possui irmãos
+								return 0;					// Se sim, terminar a função
+						free(ref[m]->filhos);				// Se não, liberar arranjo de filhos
+						ref[m]->filhos=NULL;				// Substituir arranjo do campo filhos por NULL
+					}
+					return 0;								// Encerrar função
+					break;
+				default:									// Fazer nada se não for um id válido
+					break;
+			}
+		}
+		if(!ref[m]->filhos && id==2){						// Se não existir arranjo de filhos cria um contendo NULL em cada índice
+			ref[m]->filhos=(PONT*)malloc(LETRAS*sizeof(NO));
+			for(int j=0;j<LETRAS;j++)
+				ref[m]->filhos[j]=NULL;
+		}
+		if(!ref[m]->filhos[i] && id==2){					// Se não existir a letra cria a letra
+			ref[m]->filhos[i]=criarNo();
+		}
+		ref[m+1]=ref[m]->filhos[i];							// Passar para próximo filho e índice de palavra
+		return buscarLetra(ref, palavra, n, m+1, id);		// Retornar a recursão
 }
 
 /*
@@ -186,9 +216,10 @@ sua funcao devera retornar 0 (zero), caso contrario,
 devera retornar o valor do campo contador do no correspondente a ultima letra da palavra.
 */
 int buscarPalavra(PONT raiz, char* palavra, int n){
-  	if(!raiz || strlen(palavra)!=n) return -1;
-	PONT ref=raiz;
-	return buscarLetra(ref, palavra, n, 0, 1);
+  	if(!raiz || strlen(palavra)!=n) return 0;	// Verificar se os parâmetros são válidos
+	PONT ref[n+1];								// Criar um arranjo para guardar endereço dos nós a serem percorridos durante a recursão
+	ref[0]=raiz;								// Primeiro índice contém a raiz da trie
+	return buscarLetra(ref, palavra, n, 0, 1);	// Chamar a função recursiva com id=1
 }
 
 /*
@@ -214,12 +245,10 @@ A insercao funciona da seguinte forma (potencialmente recursiva):
         e necessario incrementar seu campo contador em uma unidade.
 */
 void inserir(PONT raiz, char* palavra, int n){
-	if(!raiz || strlen(palavra)!=n) return;
-	PONT ref=raiz;
-	buscarLetra(ref, palavra, n, 0, 2);
-	return;
-  /* Complete o codigo desta funcao */ 
-  
+	if(!raiz || strlen(palavra)!=n) return;	// Verificar se os parâmetros são válidos
+	PONT ref[n+1];							// Criar um arranjo para guardar endereço dos nós a serem percorridos durante a recursão
+	ref[0]=raiz;							// Primeiro índice contém a raiz da trie
+	buscarLetra(ref, palavra, n, 0, 2);		// Chamar a função recursiva com id=2
 }
 
 /*
@@ -253,9 +282,10 @@ Observacao: o no raiz nunca devera ser excluido, porem seu arranjo de filhos pod
 (trie sem nenhuma palavra) e, neste caso, seu campo filhos devera ser atualizado para NULL.
 */
 void excluirTodas(PONT raiz, char* palavra, int n){
-
-  /* Complete o codigo desta funcao */ 
-
+	if(!raiz || strlen(palavra)!=n) return;	// Verificar se os parâmetros são válidos
+	PONT ref[n+1];							// Criar um arranjo para guardar endereço dos nós a serem percorridos durante a recursão
+	ref[0]=raiz;							// Primeiro índice contém a raiz da trie
+	buscarLetra(ref, palavra, n, 0, 3);		// Chamar a função recursiva com id=3
 }
 
 /*
@@ -266,13 +296,10 @@ Observacoes: se a palavra nao existir na trie, nao ha nada a ser feito pela func
 e o contador valer 1 (um) antes da exclusao, entao a exclusao tera o mesmo comportamento da funcao excluirTodas.
 */
 void excluir(PONT raiz, char* palavra, int n){
-	if(!raiz || strlen(palavra)!=n) return;
-	PONT ref=raiz;
-	if(!buscarLetra(ref, palavra, n, 0, 4))
-		excluirTodas(ref, palavra, n);
-	return;
-  /* Complete o codigo desta funcao */ 
-
+	if(!raiz || strlen(palavra)!=n) return;	// Verificar se os parâmetros são válidos
+	PONT ref[n+1];							// Criar um arranjo para guardar endereço dos nós a serem percorridos durante a recursão
+	ref[0]=raiz;							// Primeiro índice contém a raiz da trie
+	buscarLetra(ref, palavra, n, 0, 4);		// Chamar a função recursiva com id=3
 }
 
 /*
